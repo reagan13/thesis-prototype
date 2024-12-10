@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* index.css */
+:root {
+	--primary-color: #0000ff; /* Blue */
+	--secondary-color: #000000; /* Black */
+	--background-color: #ffffff; /* White */
+	--font-family: "Arial", sans-serif;
+	--font-size: 16px;
+	--padding: 10px;
+}
