@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.1.10",
     "@mui/material": "^6.1.10",
+    "axios": "^1.7.9",
     "client": "file:",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
