@@ -12,12 +12,24 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
+import { useData } from "../context/DataContext"; // Import useData
 
 export default function TemporaryDrawer() {
 	const [open, setOpen] = React.useState(false);
 
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
+	};
+
+	const { setData } = useData(); // Get setData from context
+
+	const handleDeleteStorage = () => {
+		// Clear local storage
+		localStorage.removeItem("chatData"); // Adjust the key if necessary
+		// Reset the context data
+		setData({ messages: [] }); // Reset messages in context
+		alert("Local storage cleared!"); // Optional: Notify the user
+		location.reload(); // Reload the page
 	};
 
 	const DrawerList = (
@@ -42,19 +54,14 @@ export default function TemporaryDrawer() {
 					</ListItem>
 				))}
 			</List>
-			{/* <Divider />
+			<Divider />
 			<List>
-				{["All mail", "Trash", "Spam"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List> */}
+				<ListItem key="Delete Storage" disablePadding>
+					<ListItemButton onClick={handleDeleteStorage} sx={{ color: "red" }}>
+						<ListItemText primary="Delete Storage" />
+					</ListItemButton>
+				</ListItem>
+			</List>
 		</Box>
 	);
 
