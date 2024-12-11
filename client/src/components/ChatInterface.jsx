@@ -1,101 +1,19 @@
-import { useState } from "react";
-import { Send } from "lucide-react";
-import PropTypes from "prop-types";
+import { useState } from "react"; // No need for useCallback
 import axios from "axios"; // Ensure axios is imported
 import CircularProgress from "@mui/material/CircularProgress";
-
-export const UserMessage = ({ text }) => (
-	<div className="text-right">
-		<div className="bg-blue text-white p-2 rounded-lg inline-block">{text}</div>
-	</div>
-);
-UserMessage.propTypes = {
-	text: PropTypes.string,
-};
-
-export const BotMessage = ({ text, category, intent, ner }) => {
-	return (
-		<div className="text-left">
-			<div className="bg-gray-300 p-2 rounded-lg inline-block space-y-8">
-				<div>
-					<p>Category: {category}</p>
-					<p>Intent: {intent}</p>
-					<p>Named Entity Recognition: {ner}</p>
-					<p>{text}</p>
-				</div>
-				<button className="bg-blue text-white p-2 rounded-lg">View More</button>
-			</div>
-		</div>
-	);
-};
-BotMessage.propTypes = {
-	text: PropTypes.string,
-	category: PropTypes.string,
-	intent: PropTypes.string,
-	ner: PropTypes.string,
-};
-
-// MessageDisplay Component
-
-export const MessageDisplay = ({ messages, category, intent, ner }) => (
-	<div className="h-full overflow-y-auto max-h-[540px] border border-gray-300 rounded-lg p-10 space-y-5">
-		{messages.map((message) => (
-			<div key={message.id}>
-				{message.sender === "user" ? (
-					<UserMessage text={message.text} />
-				) : (
-					<BotMessage
-						text={message.text}
-						category={message.category}
-						intent={message.intent}
-						ner={message.ner}
-					/>
-				)}
-			</div>
-		))}
-	</div>
-);
-
-MessageDisplay.propTypes = {
-	messages: PropTypes.arrayOf(
-		PropTypes.shape({
-			id: PropTypes.number,
-			text: PropTypes.string,
-			sender: PropTypes.string,
-		})
-	),
-};
-
-// InputSection Component
-const InputSection = ({ input, setInput, handleSend }) => (
-	<div className="flex justify-between items-center gap-4">
-		<input
-			type="text"
-			value={input}
-			onChange={(e) => setInput(e.target.value)}
-			placeholder="Enter your message..."
-			className="rounded-full w-full border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 py-4 px-5"
-		/>
-		<button
-			onClick={handleSend}
-			className="bg-blue-500 text-darkNavy rounded-full p-2 hover:bg-blue-600 transition duration-200"
-		>
-			<Send />
-		</button>
-	</div>
-);
-InputSection.propTypes = {
-	input: PropTypes.string,
-	setInput: PropTypes.func,
-	handleSend: PropTypes.func,
-};
+import MessageDisplay from "./MessageDisplay";
+import InputSection from "./InputSection";
+import { useData } from "../context/DataContext"; // Import useData
 
 const ChatInterface = () => {
-	const [messages, setMessages] = useState([]);
 	const [input, setInput] = useState("");
 	const [loading, setLoading] = useState(false); // State to manage loading
+	const { data, setData } = useData(); // Get data and setData from context
+	const messages = data.messages || []; // Access messages from context
 
 	const handleSend = async () => {
+		if (!input.trim()) return; // Prevent sending empty messages
+
 		const inputData = { text: input }; // Use the actual input from the state
 		setLoading(true); // Set loading to true when starting the API call
 
@@ -119,38 +37,32 @@ const ChatInterface = () => {
 				axios.post("http://localhost:5000/gradient_boosting_intent", inputData),
 			]);
 
-			// Log the responses
-			console.log(
-				"Gradient Boosting Category Response:",
-				gradientBoostingCategoryResponse.data
-			);
-			console.log("Intent Response:", intentResponse.data);
-
-			// Extract class and probabilities from the gradient boosting category response
-			const { class: categoryClass } = gradientBoostingCategoryResponse.data;
-			const { class: intentClass } = intentResponse.data; // Ensure this is correct
-
-			// Simulated NER data (replace with actual extraction if available)
-			const nerData = "This is a simulated NER";
-
-			// Create a bot response
+			// Create a bot response object
 			const botResponse = {
-				id: messages.length + 2,
-				text: `The predicted category is "${categoryClass}".`,
-				category: categoryClass,
-				intent: intentClass,
-				ner: nerData,
+				text: `The predicted category is "${categoryResponse.data.class}".`,
+				categoryResponse: categoryResponse,
+				intentResponse: intentResponse,
+				distilbertCategoryResponse: distilbertCategoryResponse,
+				distilbertIntentResponse: distilbertIntentResponse,
+				gradientBoostingCategoryResponse: gradientBoostingCategoryResponse,
+				gradientBoostingIntentResponse: gradientBoostingIntentResponse,
 				sender: "bot",
+				id: Date.now() + 1, // Unique ID for the bot response
+			};
+			// Create a message object for the user input
+			const userMessage = {
+				text: input,
+				sender: "user",
+				id: Date.now(), // Unique ID for the user message
+				botResponse: botResponse,
 			};
 
-			console.log("Bot Response:", botResponse); // Log the bot response
+			// Update messages state in context
+			const updatedMessages = [...messages, userMessage];
 
-			// Update messages state
-			setMessages((prevMessages) => {
-				const newMessages = [...prevMessages, botResponse];
-				console.log("Updated Messages:", newMessages); // Log updated messages
-				return newMessages;
-			});
+			// Update context with the new messages
+			setData({ messages: updatedMessages }); // Store all relevant data in one local storage item
+			setInput(""); // Clear input after sending
 		} catch (error) {
 			console.error("Error:", error);
 		} finally {
@@ -166,7 +78,7 @@ const ChatInterface = () => {
 					<CircularProgress size={150} />
 				</div>
 			)}
-			{/* Conditional rendering based on messages */}
+			{/* Conditional rendering based on the length of messages in data */}
 			{messages.length === 0 ? (
 				<div className="border border-gray-300 rounded-lg shadow-lg w-[700px] px-6 py-10 bg-white">
 					<div className="space-y-20 text-center">
@@ -181,9 +93,9 @@ const ChatInterface = () => {
 					</div>
 				</div>
 			) : (
-				<div className=" w-[700px] p-6 bg-white h-full">
+				<div className="w-[700px] p-6 bg-white h-full">
 					<div className="space-y-6 text-center justify-between flex flex-col h-full">
-						<MessageDisplay messages={messages} />
+						<MessageDisplay /> {/* No need to pass messages as props */}
 						<InputSection
 							input={input}
 							setInput={setInput}
