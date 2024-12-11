@@ -1,8 +1,16 @@
+import { useHeaderContext } from "../context/HeaderContext"; // Import context
+import TemporaryDrawer from "./TemporaryDrawer";
+
 const Header = () => {
+	const { headerName } = useHeaderContext(); // Use context to get headerName
+
 	return (
-		<div className="border border-black text-center mx-48 h-12 justify-center items-center flex">
-			CHATTIBOT
-		</div>
+		<header className=" py-4 text-center text-3xl font-bold tracking-widest relative">
+			<div className="absolute left-0">
+				<TemporaryDrawer />
+			</div>
+			{headerName}
+		</header>
 	);
 };
 

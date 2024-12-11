@@ -1,15 +1,19 @@
+import { HeaderProvider } from "./context/HeaderContext"; // Import HeaderProvider
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import "./App.css";
+import { Outlet } from "react-router-dom";
+
 const App = () => {
 	return (
-		<div className="flex flex-col border-red-500 border h-screen">
-			<Header />
-			<div className="border border-black flex-grow flex gap-10 ">
-				<div className="border w-full">h1</div>
-				<div className="border w-full">h2</div>
+		<HeaderProvider>
+			<div className="flex flex-col h-screen bg-white">
+				<Header /> {/* Header now uses context */}
+				<div className="h-full w-full">
+					<Outlet />
+				</div>
 			</div>
-			<Footer />
-		</div>
+		</HeaderProvider>
 	);
 };
 
