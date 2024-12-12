@@ -24,7 +24,11 @@ const router = createBrowserRouter([
 				element: <GPT2 />,
 			},
 			{
-				path: "distilbert/:id",
+				path: "result",
+				element: <DistilBERT />,
+			},
+			{
+				path: "result/:id",
 				element: <DistilBERT />,
 			},
 		],
