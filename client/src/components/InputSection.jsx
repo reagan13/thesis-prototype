@@ -7,7 +7,7 @@ const InputSection = ({ input, setInput, handleSend }) => (
 			value={input}
 			onChange={(e) => setInput(e.target.value)}
 			placeholder="Enter your message..."
-			className="rounded-full w-full border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 py-4 px-5"
+			className="rounded-full w-full border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 py-4 px-5"
 		/>
 		<button
 			onClick={handleSend}
