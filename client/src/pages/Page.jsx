@@ -29,13 +29,21 @@ const Page = ({ name, categoryResponse, text, intentResponse }) => {
 				<h2 className="text-lg font-semibold text-gray-800 border-b-2 border-blue-500 pb-1">
 					Analysis
 				</h2>
-				<CustomTable />
+				<CustomTable
+					categoryResponse={categoryResponse.data.probabilities}
+					intentResponse={intentResponse.data.probabilities}
+				/>
 			</div>
 			<div>
 				<h2 className="text-lg font-semibold text-gray-800 border-b-2 border-blue-500 pb-1">
 					Response
 				</h2>
-				<p className="text-gray-700 mt-2">{text}</p>
+				<p className="text-gray-700 mt-2">
+					The predicted intent is {intentResponse.data.class}
+				</p>
+				<p className="text-gray-700 mt-2">
+					the predicted category is {categoryResponse.data.class}
+				</p>
 			</div>
 		</div>
 	);
