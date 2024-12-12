@@ -207,7 +207,7 @@ def gradient_boosting_category():
 
         # Return classification result
         return jsonify({
-            'class': predicted_class,
+            'class': class_label,
             'probabilities': probabilities.tolist()
         })
 
