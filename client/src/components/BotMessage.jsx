@@ -8,6 +8,7 @@ const BotMessage = ({ text, category, intent, ner, probabilities, id }) => {
 					<p>Category: {category}</p>
 					<p>Intent: {intent}</p>
 					<p>Named Entity Recognition: {ner}</p>
+					<p>Response:</p>
 					<p>{text}</p>
 				</div>
 				<div className="pb-2">
