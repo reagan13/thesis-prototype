@@ -12,7 +12,7 @@ const BotMessage = ({ text, category, intent, ner, probabilities, id }) => {
 				</div>
 				<Link
 					to={{
-						pathname: `/distilbert/${id}`,
+						pathname: `/result/${id}`,
 					}}
 					className="bg-blue text-white p-2 rounded-lg text-center" // Add text-center for better alignment
 				>
