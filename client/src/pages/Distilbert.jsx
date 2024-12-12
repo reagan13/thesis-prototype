@@ -71,6 +71,7 @@ const Distilbert = () => {
 				return (
 					<Page
 						key={index}
+						name={name}
 						categoryResponse={botResponse.categoryResponse}
 						text={botResponse.text}
 						intentResponse={botResponse.intentResponse}
@@ -90,6 +91,7 @@ const Distilbert = () => {
 				return (
 					<Page
 						key={index}
+						name={name}
 						categoryResponse={botResponse.gradientBoostingCategoryResponse}
 						text={botResponse.text}
 						intentResponse={botResponse.gradientBoostingIntentResponse}
