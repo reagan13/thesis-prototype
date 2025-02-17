@@ -9,7 +9,7 @@ const App = () => {
 	return (
 		<DataProvider>
 			<HeaderProvider>
-				<div className="flex flex-col h-screen bg-white">
+				<div className="flex flex-col h-screen bg-black">
 					<Header /> {/* Header now uses context */}
 					<div className="h-full w-full">
 						<Outlet />

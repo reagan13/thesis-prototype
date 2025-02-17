@@ -45,40 +45,46 @@ function TablePaginationActions(props) {
 				onClick={handleFirstPageButtonClick}
 				disabled={page === 0}
 				aria-label="first page"
+				sx={{ fontSize: "0.9rem", p: 0.3 }}
 			>
-				{theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+				{theme.direction === "rtl" ? <LastPageIcon fontSize="small" /> : <FirstPageIcon fontSize="small" />}
 			</IconButton>
 			<IconButton
 				onClick={handleBackButtonClick}
 				disabled={page === 0}
 				aria-label="previous page"
+				sx={{ fontSize: "0.9rem", p: 0.3 }}
 			>
 				{theme.direction === "rtl" ? (
-					<KeyboardArrowRight />
+					<KeyboardArrowRight fontSize="small" />
 				) : (
-					<KeyboardArrowLeft />
+					<KeyboardArrowLeft fontSize="small" />
 				)}
 			</IconButton>
 			<IconButton
 				onClick={handleNextButtonClick}
 				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 				aria-label="next page"
+				sx={{ fontSize: "0.9rem", p: 0.3 }}
 			>
 				{theme.direction === "rtl" ? (
-					<KeyboardArrowLeft />
+					<KeyboardArrowLeft fontSize="small" />
 				) : (
-					<KeyboardArrowRight />
+					<KeyboardArrowRight fontSize="small" />
 				)}
 			</IconButton>
 			<IconButton
 				onClick={handleLastPageButtonClick}
 				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 				aria-label="last page"
+				sx={{ fontSize: "0.9rem", p: 0.3 }}
 			>
-				{theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+				{theme.direction === "rtl" ? <FirstPageIcon fontSize="medium" /> : <LastPageIcon fontSize="small" />}
 			</IconButton>
 		</Box>
+
 	);
+	
 }
 
 TablePaginationActions.propTypes = {
@@ -138,7 +144,8 @@ const categoryLabels = {
 	10: "SUBSCRIPTION",
 };
 
-const CustomTable = ({ categoryResponse, intentResponse, nerResponse }) => {
+const CustomTable = ({ categoryResponse, intentResponse, nerResponse })  => {
+	
 	console.log("table", categoryResponse, intentResponse, nerResponse);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(3);
@@ -192,12 +199,13 @@ const CustomTable = ({ categoryResponse, intentResponse, nerResponse }) => {
 	];
 
 	return (
-		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-				<TableHead>
+		<TableContainer component={Paper} sx={{ backgroundColor: "#88D1FF", border: "2px solid #000" }}>
+
+			<Table sx={{ minWidth: 100, maxHeight: 30, overflow: "hidden" }} aria-label="custom pagination table">
+				<TableHead sx={{ height: 30, width: 100 }}>
 					<TableRow>
-						<TableCell>{currentHeader.metric}</TableCell>
-						<TableCell align="right">{currentHeader.value}</TableCell>
+						<TableCell sx={{ height: 20, fontSize: "0.9rem", padding: "2px" }}>{currentHeader.metric}</TableCell>
+						<TableCell sx={{ height: 20, fontSize: "0.9rem", padding: "2px" }} align="right">{currentHeader.value}</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -209,10 +217,10 @@ const CustomTable = ({ categoryResponse, intentResponse, nerResponse }) => {
 						: combinedData
 					).map((row, index) => (
 						<TableRow key={index}>
-							<TableCell component="th" scope="row">
+							<TableCell sx={{fontSize: "0.9rem", padding: "4px" }} component="th" scope="row">
 								{row.metric}
-							</TableCell>
-							<TableCell align="right">{row.value}</TableCell>
+							</TableCell >
+							<TableCell sx={{height: 20, fontSize: "0.9rem", padding: "4px" }}align="right">{row.value}</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
@@ -229,6 +237,12 @@ const CustomTable = ({ categoryResponse, intentResponse, nerResponse }) => {
 									"aria-label": "rows per page",
 								},
 								native: true,
+							}}
+							sx={{
+								
+								"& .MuiTablePagination-selectLabel, & .MuiTablePagination-input": {
+									fontSize: "0.9rem", // Smaller font
+								},
 							}}
 							onPageChange={handleChangePage}
 							onRowsPerPageChange={handleChangeRowsPerPage}

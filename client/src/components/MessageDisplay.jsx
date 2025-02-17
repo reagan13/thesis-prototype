@@ -9,20 +9,21 @@ const MessageDisplay = () => {
   const messages = data.messages || []; // Access messages from context
 
   return (
-    <div className="h-full overflow-y-auto max-h-[540px]  border border-gray-300 rounded-lg p-10 space-y-5">
+    <div className={"h-full overflow-y-auto max-h-[540px] border border-gray-300 rounded-lg p-10 space-y-5 bg-[#0A0F24] text-white"} style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
       {messages.map((message) => {
-        console.log(message);
-        console.log(message.botResponse.categoryResponse.data.class); // Log the message object
-        console.log(message.botResponse.intentResponse.data.class); // Log the message object
-        console.log("bot response id", message.botResponse.id); // Log the message object
+        if (!message || !message.botResponse) {
+          console.error("Invalid message format:", message);
+          return null; // Skip rendering if message is invalid
+        }
+
         return (
-          <div key={message.id} className=" space-y-10">
+          <div key={message.id} className="space-y-10">
             <UserMessage text={message.text} />
 
             <BotMessage
               text={message.botResponse.text} // Accessing bot response text
-              category={message.botResponse.categoryResponse.data.class} // Adjust based on your data structure
-              intent={message.botResponse.intentResponse.data.class} // Adjust based on your data structure
+              category={message.botResponse.categoryResponse?.data?.class || "Unknown"} // Fallback to "Unknown" if data is missing
+              intent={message.botResponse.intentResponse?.data?.class || "Unknown"} // Fallback to "Unknown" if data is missing
               ner={"Unknown"}
               id={message.botResponse.id}
             />

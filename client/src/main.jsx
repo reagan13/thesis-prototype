@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import GPT2 from "./pages/GPT2";
-import DistilBERT from "./pages/distilbert";
+import DistilBERT from "./pages/Distilbert";
 import Home from "./pages/Home";
 const router = createBrowserRouter([
 	{
