@@ -6,9 +6,10 @@ const DataContext = createContext();
 export const DataProvider = ({ children }) => {
     const [data, setData] = useLocalStorage("chatData", { messages: [] }); // Use local storage for chat data
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // Sidebar state
+    const [graphType, setGraphType] = useState(""); // Add graphType state
 
     return (
-        <DataContext.Provider value={{ data, setData, isSidebarCollapsed, setIsSidebarCollapsed }}>
+        <DataContext.Provider value={{ data, setData, isSidebarCollapsed, setIsSidebarCollapsed, graphType, setGraphType }}>
             {children}
         </DataContext.Provider>
     );

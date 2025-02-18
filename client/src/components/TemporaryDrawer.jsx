@@ -34,7 +34,7 @@ export default function Sidebar() {
                 width: isSidebarCollapsed ? 80 : 270, 
                 bgcolor: "#0A0F24",
                 color: "white",
-                height: "95vh",
+                height: "93vh",
                 display: "flex",
                 flexDirection: "column",
                 paddingTop: 2,

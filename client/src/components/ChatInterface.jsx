@@ -21,17 +21,26 @@ const ChatInterface = () => {
                 axios.post("http://localhost:5000/baseline_category", inputData),
             ]);
 
-            const botResponse = {
-                text: `The predicted category is "${categoryResponse.data.class}".`,
+            // Generate two distinct responses
+            const botResponse1 = {
+                text: `Option 1: The predicted category is "${categoryResponse.data.class}".`,
                 sender: "bot",
                 id: Date.now() + 1,
+                isSelected: false, // Track if this option is selected
+            };
+
+            const botResponse2 = {
+                text: `Option 2: An alternative perspective is "${categoryResponse.data.class}".`,
+                sender: "bot",
+                id: Date.now() + 2,
+                isSelected: false, // Track if this option is selected
             };
 
             const userMessage = {
                 text: input,
                 sender: "user",
                 id: Date.now(),
-                botResponse,
+                botResponses: [botResponse1, botResponse2], // Store both responses
             };
 
             setData({ messages: [...messages, userMessage] });
@@ -52,14 +61,13 @@ const ChatInterface = () => {
             )}
             <div
                 className={`p-6 bg-[#133075d2] outline outline-2 outline-white outline-offset-2 rounded-lg h-[640px] mb-[20px]`}
-					style={{
-						width: isSidebarCollapsed ? "1350px" : "1200px",
-						marginLeft: isSidebarCollapsed ? "100px" : "300px",
-						transition: "all 0.3s ease",
-                       
-					}}
+                style={{
+                    width: isSidebarCollapsed ? "1350px" : "1200px",
+                    marginLeft: isSidebarCollapsed ? "100px" : "300px",
+                    transition: "all 0.3s ease",
+                }}
             >
-                <div className={"space-y-6 text-center justify-between flex flex-col h-full"} >
+                <div className={"space-y-6 text-center justify-between flex flex-col h-full"}>
                     <MessageDisplay />
                     <InputSection input={input} setInput={setInput} handleSend={handleSend} />
                 </div>

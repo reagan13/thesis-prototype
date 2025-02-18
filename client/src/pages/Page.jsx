@@ -6,7 +6,7 @@ const Page = ({ name, categoryResponse, text, intentResponse, isSidebarCollapsed
 	return (
 		<div className={" h-[610px] p-6  bg-[#133075d2] rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl outline outline-2 outline-white outline-offset-2"}
 		style={{
-			width: isSidebarCollapsed ? "1250px" : "1150px",
+			width: isSidebarCollapsed ? "1250px" : "1120px",
 			transition: "all 0.3s ease",
 		}}>
 		
@@ -22,11 +22,11 @@ const Page = ({ name, categoryResponse, text, intentResponse, isSidebarCollapsed
 					</div>
 					<div className="flex items-center justify-between mt-1">
 						<span className="text-gray-700">Category</span>
-						<span className="text-gray-700">{categoryResponse.data.class}</span>
+						<span className="text-gray-700">Unknown</span>
 					</div>
 					<div className="flex items-center justify-between mt-1">
 						<span className="text-gray-700">Intent</span>
-						<span className="text-gray-700">{intentResponse.data.class}</span>
+						<span className="text-gray-700">unknown</span>
 					</div>
 				</div>
 
@@ -35,8 +35,8 @@ const Page = ({ name, categoryResponse, text, intentResponse, isSidebarCollapsed
 						Analysis
 					</h2>
 					<CustomTable
-						categoryResponse={categoryResponse.data.probabilities}
-						intentResponse={intentResponse.data.probabilities}
+						categoryResponse="unknown"
+						intentResponse="unknown"
 					/>
 				</div>
 			</div>
