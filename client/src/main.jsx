@@ -8,6 +8,7 @@ import DistilBERT from "./pages/Distilbert";
 import Home from "./pages/Home";
 import GraphPage from "./components/Graphpage";
 import Chat from "./pages/Chat";
+import Datapreprocess from "./components/Datapreprocess";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
 				path: "OVERALL",
 				element: <GraphPage />,
 			},
+			{
+				path: "datapreprocess",
+				element: <Datapreprocess />,
+			},
+			
 		],
 	},
 ]);

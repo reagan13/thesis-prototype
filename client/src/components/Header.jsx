@@ -11,7 +11,7 @@ const Header = () => {
 
 	return (
 		<aside>
-			<TemporaryDrawer className="" />
+			<TemporaryDrawer className=" " />
 			{/* Conditionally render Navbar if the current path is in the navbarPaths array */}
 			{/* {navbarPaths.some((path) => location.pathname.startsWith(path)) && (
 				<Navbar />

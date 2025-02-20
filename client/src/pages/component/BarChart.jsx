@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
 	Chart as ChartJS,
@@ -20,28 +20,19 @@ ChartJS.register(
 	Legend
 );
 
-const ChartBox = ({ title, description, onClick }) => {
-	const chartRef = useRef(null); // Reference to the chart instance
-
+const BarChart = ({ title, description, onClick }) => {
 	// Example data for the bar chart
 	const chartData = {
 		labels: ["Cancel Order", "Change Order"], // Detected classes as x-axis labels
 		values: [40, 60], // Confidence scores (percentage values)
 	};
 
-	useEffect(() => {
-		// Cleanup function to destroy the chart when the component unmounts or re-renders
-		return () => {
-			if (chartRef.current) {
-				chartRef.current.destroy(); // Destroy the previous chart instance
-			}
-		};
-	}, []);
-
 	return (
-		<div className="border border-black w-[400px] h-[250px]">
+		<div
+			className="border border-black w-[400px] h-[250px] cursor-pointer"
+			onClick={onClick}
+		>
 			<Bar
-				ref={chartRef} // Assign the ref to the chart instance
 				data={{
 					labels: chartData.labels, // X-axis labels
 					datasets: [
@@ -93,4 +84,4 @@ const ChartBox = ({ title, description, onClick }) => {
 	);
 };
 
-export default ChartBox;
+export default BarChart;

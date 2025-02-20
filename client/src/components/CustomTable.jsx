@@ -199,7 +199,7 @@ const CustomTable = ({ categoryResponse, intentResponse, nerResponse })  => {
 	];
 
 	return (
-		<TableContainer component={Paper} sx={{ backgroundColor: "#88D1FF", border: "2px solid #000" }}>
+		<TableContainer component={Paper} sx={{ backgroundColor: "white", border: "2px solid #000" }}>
 
 			<Table sx={{ minWidth: 100, maxHeight: 30, overflow: "hidden" }} aria-label="custom pagination table">
 				<TableHead sx={{ height: 30, width: 100 }}>

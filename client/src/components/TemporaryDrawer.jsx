@@ -136,7 +136,7 @@ export default function Sidebar() {
 						{/* Home Link */}
 						<li>
 							<Link
-								to="/home"
+								to="/datapreprocess"
 								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
 							>
 								<Home size={20} />
@@ -149,7 +149,7 @@ export default function Sidebar() {
 											exit={{ opacity: 0 }}
 											transition={{ duration: 0.2 }}
 										>
-											Home
+											Data Preprocess
 										</motion.span>
 									)}
 								</AnimatePresence>

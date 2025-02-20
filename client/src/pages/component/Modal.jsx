@@ -1,17 +1,36 @@
 import PropTypes from "prop-types";
-import { BarChart } from "@mui/x-charts/BarChart";
+import { Bar } from "react-chartjs-2";
+import {
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	BarElement,
+	Title,
+	Tooltip,
+	Legend,
+} from "chart.js";
 import { X } from "lucide-react"; // Import the X icon from Lucide React
+
+// Register Chart.js components
+ChartJS.register(
+	CategoryScale,
+	LinearScale,
+	BarElement,
+	Title,
+	Tooltip,
+	Legend
+);
 
 const Modal = ({ selectedBox, onClose }) => {
 	// Example data for the bar chart
 	const chartData = {
-		Intent: { data: [4, 3, 5], labels: ["group A", "group B", "group C"] },
-		Category: { data: [1, 6, 3], labels: ["group X", "group Y", "group Z"] },
-		NER: { data: [2, 5, 6], labels: ["entity 1", "entity 2", "entity 3"] },
+		Intent: { labels: ["Cancel Order", "Change Order"], values: [40, 60] },
+		Category: { labels: ["Group X", "Group Y", "Group Z"], values: [1, 6, 3] },
+		NER: { labels: ["Entity 1", "Entity 2", "Entity 3"], values: [2, 5, 6] },
 	};
 
 	// Get the data for the selected box
-	const { data, labels } = chartData[selectedBox] || {};
+	const { labels, values } = chartData[selectedBox] || { labels: [], values: [] };
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -32,11 +51,53 @@ const Modal = ({ selectedBox, onClose }) => {
 				<div className="flex border border-black">
 					{/* Left Side: Bar Chart (70%) */}
 					<div className="pr-4">
-						<BarChart
-							xAxis={[{ scaleType: "band", data: labels }]}
-							series={[{ data }]}
-							width={500}
-							height={300}
+						<Bar
+							data={{
+								labels: labels,
+								datasets: [
+									{
+										label: "Confidence Score",
+										data: values,
+										backgroundColor: [
+											"rgba(43, 63, 229, 0.8)",
+											"rgba(250, 192, 19, 0.8)",
+										],
+										borderColor: [
+											"rgba(43, 63, 229, 1)",
+											"rgba(250, 192, 19, 1)",
+										],
+										borderWidth: 1,
+										borderRadius: 5,
+									},
+								],
+							}}
+							options={{
+								plugins: {
+									title: {
+										display: true,
+										text: `${selectedBox} Analysis`,
+									},
+									legend: {
+										display: true,
+										position: "top",
+										labels: {
+											boxWidth: 20,
+											padding: 10,
+										},
+									},
+								},
+								responsive: true,
+								maintainAspectRatio: false,
+								scales: {
+									y: {
+										beginAtZero: true,
+										max: 100,
+										ticks: {
+											callback: (value) => `${value}%`,
+										},
+									},
+								},
+							}}
 						/>
 					</div>
 

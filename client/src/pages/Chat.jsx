@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import { useState } from "react";
 import BarChart from "./component/BarChart"; // Import the reusable Box component
 import Modal from "./component/Modal"; // Import the Modal component
@@ -62,7 +61,7 @@ const Chat = () => {
 };
 
 export default Chat;
-Modal.propTypes = {
-	selectedBox: PropTypes.string.isRequired,
-	onClose: PropTypes.func.isRequired,
+Chat.propTypes = {
+	selectedBox: PropTypes.string,
+	onClose: PropTypes.func,
 };

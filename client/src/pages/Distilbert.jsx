@@ -32,10 +32,10 @@ const Distilbert = () => {
 
     return (
         <>
-            <div className="relative flex-grow flex flex-col items-center ml-[300px] bg-black h-[670px] w-[1230px] overflow-y-auto p-4"
+            <div className="relative flex-grow flex flex-col items-center ml-[300px] bg-white h-[670px] w-[1230px] overflow-y-auto p-4"
                 style={{
                     width: isSidebarCollapsed ? "1400px" : "1200px",
-                    marginLeft: isSidebarCollapsed ? "110px" : "300px",
+                    marginLeft: "30px",
                     transition: "all 0.3s ease",
                     scrollbarWidth: "none", // Firefox
                     msOverflowStyle: "none", // Internet Explorer 10+
