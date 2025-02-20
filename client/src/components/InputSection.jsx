@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Send } from "lucide-react";
 
 const InputSection = ({ input, setInput, handleSend }) => (
-	<div className="flex items-center w-full bg-transparent">
+	<div className="flex items-center bg-transparent">
 		<div className="flex items-center w-full border-2 border-[#111852] rounded-2xl overflow-hidden bg-white focus-within:ring-2 focus-within:ring-[#111852] outline outline-2 outline-white outline-offset-2 ">
 			<input
 				type="text"

@@ -1,115 +1,213 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import HomeIcon from "@mui/icons-material/Home";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, Home, BarChart, Trash2 } from "lucide-react"; // Import Lucide icons
+import { motion, AnimatePresence } from "framer-motion";
 import { useData } from "../context/DataContext";
 
 export default function Sidebar() {
-    const navigate = useNavigate();
-    const { setData, isSidebarCollapsed, setIsSidebarCollapsed } = useData(); // Get state from context
+	const navigate = useNavigate();
+	const { setData, isSidebarCollapsed, setIsSidebarCollapsed } = useData(); // Get state from context
 
-    const toggleSidebar = () => {
-        setIsSidebarCollapsed((prev) => !prev); // Toggle state
-    };
+	// Toggle sidebar collapse
+	const toggleSidebar = () => {
+		setIsSidebarCollapsed((prev) => !prev); // Toggle state
+	};
 
-    const handleDeleteStorage = () => {
-        localStorage.removeItem("chatData");
-        setData({ messages: [] });
-        alert("Local storage cleared!");
-        navigate("/home");
-    };
+	// Clear local storage and reset data
+	const handleDeleteStorage = () => {
+		localStorage.removeItem("chatData");
+		setData({ messages: [] });
+		alert("Local storage cleared!");
+		navigate("/home");
+	};
 
-    return (
-        <Box
-            sx={{
-                width: isSidebarCollapsed ? 80 : 270, 
-                bgcolor: "#0A0F24",
-                color: "white",
-                height: "93vh",
-                display: "flex",
-                flexDirection: "column",
-                paddingTop: 2,
-                position: "fixed",
-                left: 0,
-                top: 0,
-                transition: "width 0.3s ease",
-                borderRadius: "12px",
-                border: "2px solid white",
-                boxShadow: "0px 0px 10px rgba(255, 255, 255, 0.1)",     
-                marginTop: "20px",
-                marginLeft: "20px",
-            }}
-        >
-            <div className="flex items-center justify-between p-4">
-                {!isSidebarCollapsed && (
-                    <h1 className="text-3xl font-bold tracking-widest text-white">CHATTIBOT</h1>
-                )}
-                <Menu color="white" size={30} onClick={toggleSidebar} className="cursor-pointer ml-[10px]" />
-            </div>
-            <Divider sx={{ bgcolor: "#1C233D" }} />
-            {!isSidebarCollapsed && (
-                <>
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/home" sx={{
-                                bgcolor: "#131A35",
-                                margin: "8px",
-                                borderRadius: "8px",
-                                color: "white",
-                                border: "2px solid white",
-                                "&:hover": { bgcolor: "#1C233D", border: "2px solid rgba(255, 255, 255, 0.5)" },
-                            }}>
-                                <ListItemIcon>
-                                    <HomeIcon sx={{ color: "white" }} />
-                                </ListItemIcon>
-                                <ListItemText primary="Home" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton component={Link} to="/result" sx={{
-                                bgcolor: "#131A35",
-                                margin: "8px",
-                                borderRadius: "8px",
-                                color: "white",
-                                border: "2px solid white",
-                                "&:hover": { bgcolor: "#1C233D", border: "2px solid rgba(255, 255, 255, 0.5)" },
-                            }}>
-                                <ListItemIcon>
-                                    <AssessmentIcon sx={{ color: "white" }} />
-                                </ListItemIcon>
-                                <ListItemText primary="Results" />
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                    <Divider sx={{ bgcolor: "#1C233D", marginTop: "auto" }} />
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={handleDeleteStorage} sx={{
-                                bgcolor: "#131A35",
-                                margin: "8px",
-                                borderRadius: "8px",
-                                color: "red",
-                                border: "2px solid white",
-                                "&:hover": { bgcolor: "#1C233D", border: "2px solid rgba(255, 255, 255, 0.5)" },
-                            }}>
-                                <ListItemIcon>
-                                    <DeleteIcon sx={{ color: "red" }} />
-                                </ListItemIcon>
-                                <ListItemText primary="Delete Storage" />
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                </>
-            )}
-        </Box>
-    );
+	return (
+		<>
+			<motion.div
+				key={isSidebarCollapsed ? "collapsed" : "expanded"} // Ensures re-render on state change
+				className="flex flex-col h-full"
+				initial={false}
+				animate={{ width: isSidebarCollapsed ? "80px" : "270px" }}
+				transition={{ duration: 0.3, ease: "easeInOut" }}
+			>
+				{/* Divider */}
+				<hr className="border-gray-300 mx-4" />
+
+				{/* Main Content */}
+				<motion.div
+					className="flex-1 overflow-y-auto"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.3 }}
+				>
+					<ul className="space-y-2 px-4 py-4">
+						{/* CHATTIBOT Title and Menu Button Grouped Together */}
+						<li className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300 mb-5">
+							<button
+								className="flex items-center gap-2 w-full"
+								onClick={toggleSidebar}
+							>
+								<Menu size={30} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.h1
+											key="chattibot-title"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+											className="text-2xl font-bold tracking-widest"
+										>
+											CHATTIBOT
+										</motion.h1>
+									)}
+								</AnimatePresence>
+							</button>
+						</li>
+
+						{/* Home Link */}
+						<li>
+							<Link
+								to="/home"
+								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
+							>
+								<Home size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="home-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Home
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</Link>
+						</li>
+
+						{/* Results Link */}
+						<li>
+							<Link
+								to="/results"
+								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
+							>
+								<Home size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="home-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Results
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</Link>
+						</li>
+					</ul>
+
+					{/* Divider */}
+					<hr className="border-gray-300 mx-4" />
+					<ul className="space-y-2 px-4 py-2">
+						{/* CHATTIBOT Title and Menu Button Grouped Together */}
+						<li className="flex items-center gap-2 p-2 rounded-md  transition-all duration-300 ">
+							<AnimatePresence>
+								{!isSidebarCollapsed && (
+									<motion.h1
+										key="chattibot-title"
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										exit={{ opacity: 0 }}
+										transition={{ duration: 0.2 }}
+										className="text-2xl font-bold tracking-widest"
+									>
+										Code
+									</motion.h1>
+								)}
+							</AnimatePresence>
+						</li>
+
+						{/* Home Link */}
+						<li>
+							<Link
+								to="/home"
+								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
+							>
+								<Home size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="home-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Home
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</Link>
+						</li>
+
+						{/* Results Link */}
+						<li>
+							<Link
+								to="/result"
+								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
+							>
+								<BarChart size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="results-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Results
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</Link>
+						</li>
+					</ul>
+					{/* Divider */}
+					<hr className="border-gray-300 mx-4" />
+
+					{/* Delete Storage Button */}
+					<ul className="space-y-2 px-4 py-4">
+						<li>
+							<button
+								onClick={handleDeleteStorage}
+								className="flex items-center gap-2 w-full p-2 rounded-md bg-gray-200 hover:bg-gray-300 transition-all duration-300"
+							>
+								<Trash2 size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="delete-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Delete Storage
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</button>
+						</li>
+					</ul>
+				</motion.div>
+			</motion.div>
+		</>
+	);
 }

@@ -1,0 +1,14 @@
+.scroll-hide {
+	overflow: auto; /* Allows scrolling */
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+/* Manually style the bars */
+.custom-bar-chart .MuiBarElement-root:nth-of-type(1) {
+	fill: blue; /* Blue for Baseline */
+}
+
+.custom-bar-chart .MuiBarElement-root:nth-of-type(2) {
+	fill: orange; /* Orange for Hybrid */
+}

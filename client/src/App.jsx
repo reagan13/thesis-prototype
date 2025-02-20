@@ -9,9 +9,9 @@ const App = () => {
 	return (
 		<DataProvider>
 			<HeaderProvider>
-				<div className="flex flex-col h-screen bg-black">
+				<div className="flex h-screen">
 					<Header /> {/* Header now uses context */}
-					<div className="h-full w-full">
+					<div className="h-full w-full border border-black pt-5 pb-3 pl-3">
 						<Outlet />
 					</div>
 				</div>

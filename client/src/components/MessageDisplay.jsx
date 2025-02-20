@@ -1,63 +1,117 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import UserMessage from "./UserMessage";
 import BotMessage from "./BotMessage";
 import PropTypes from "prop-types";
 import { useData } from "../context/DataContext"; // Import useData
+import { Link, useNavigate } from "react-router-dom";
 
 const MessageDisplay = () => {
-    const { data, setData } = useData(); // Get data and setData from context
-    const messages = data.messages || []; // Access messages from context
+	const { data, setData } = useData(); // Get data and setData from context
+	const messages = useMemo(() => data.messages || [], [data.messages]); // Access messages from context
+	const messageEndRef = useRef(null); // Create a ref for the message container
 
-    const handleSelectOption = (messageId, selectedResponseId) => {
-        const updatedMessages = messages.map((message) => {
-            if (message.id === messageId) {
-                const updatedBotResponses = message.botResponses.map((response) => ({
-                    ...response,
-                    isSelected: response.id === selectedResponseId, // Mark the selected response
-                }));
-                return { ...message, botResponses: updatedBotResponses };
-            }
-            return message;
-        });
+	// Handle selecting an option in bot responses
+	const handleSelectOption = (messageId, selectedResponseId) => {
+		const updatedMessages = messages.map((message) => {
+			if (message.id === messageId) {
+				const updatedBotResponses = message.botResponses.map((response) => ({
+					...response,
+					isSelected: response.id === selectedResponseId, // Mark the selected response
+				}));
+				return { ...message, botResponses: updatedBotResponses };
+			}
+			return message;
+		});
+		setData({ messages: updatedMessages });
+	};
 
-        setData({ messages: updatedMessages });
-    };
+	// Scroll to the bottom of the message container whenever messages change
+	useEffect(() => {
+		if (messageEndRef.current) {
+			messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [messages]);
 
-    return (
-        <div className={"h-full overflow-y-auto max-h-[540px] border border-gray-300 rounded-lg p-10 space-y-5 bg-[#0A0F24] text-white"} style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            {messages.map((message) => {
-                if (!message || !message.botResponses) {
-                    console.error("Invalid message format:", message);
-                    return null; // Skip rendering if message is invalid
-                }
+	return (
+		<div
+			className="h-full overflow-y-auto space-y-10 pb-2"
+			style={{ scrollbarWidth: "none" }} // Hide scrollbar for a cleaner look
+		>
+			{messages.map((message) => {
+				if (!message || !message.botResponses) {
+					console.error("Invalid message format:", message);
+					return null; // Skip rendering if message is invalid
+				}
 
-                return (
-                    <div key={message.id} className="space-y-10">
-                        <UserMessage text={message.text} />
+				const selectedResponses = message.botResponses.filter(
+					(botResponse) => botResponse.isSelected
+				);
 
-                        {message.botResponses.map((botResponse) => {
-                            // Only display the selected response or all responses if none are selected
-                            if (botResponse.isSelected || message.botResponses.every((r) => !r.isSelected)) {
-                                return (
-                                    <BotMessage
-                                        key={botResponse.id}
-                                        text={botResponse.text}
-                                        category={botResponse.categoryResponse?.data?.class || "Unknown"}
-                                        intent={botResponse.intentResponse?.data?.class || "Unknown"}
-                                        ner={"Unknown"}
-                                        id={botResponse.id}
-                                        isSelected={botResponse.isSelected}
-                                        onSelect={() => handleSelectOption(message.id, botResponse.id)}
-                                    />
-                                );
-                            }
-                            return null;
-                        })}
-                    </div>
-                );
-            })}
-        </div>
-    );
+				const responsesToDisplay =
+					selectedResponses.length > 0
+						? selectedResponses
+						: message.botResponses;
+
+				return (
+					<div key={message.id} className="space-y-4">
+						{/* User Message */}
+						<div className="flex justify-end">
+							<UserMessage text={message.text} />
+						</div>
+
+						{/* Bot Responses */}
+						<div
+							className={`flex ${
+								responsesToDisplay.length === 2
+									? "justify-around"
+									: "justify-start"
+							}`}
+						>
+							{responsesToDisplay.map((botResponse) => (
+								<Link key={botResponse.id} to={`/chat/${botResponse.id}`}>
+									<BotMessage
+										text={botResponse.text}
+										category={
+											botResponse.categoryResponse?.data?.class || "Unknown"
+										}
+										intent={
+											botResponse.intentResponse?.data?.class || "Unknown"
+										}
+										ner={"Unknown"}
+										id={botResponse.id}
+										isSelected={botResponse.isSelected}
+										onSelect={() =>
+											handleSelectOption(message.id, botResponse.id)
+										}
+									/>
+								</Link>
+							))}
+						</div>
+					</div>
+				);
+			})}
+
+			<div ref={messageEndRef}></div>
+		</div>
+	);
+};
+
+MessageDisplay.propTypes = {
+	messages: PropTypes.arrayOf(
+		PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			text: PropTypes.string.isRequired,
+			botResponses: PropTypes.arrayOf(
+				PropTypes.shape({
+					id: PropTypes.string.isRequired,
+					text: PropTypes.string.isRequired,
+					isSelected: PropTypes.bool,
+					categoryResponse: PropTypes.object,
+					intentResponse: PropTypes.object,
+				})
+			).isRequired,
+		})
+	),
 };
 
 export default MessageDisplay;

@@ -385,7 +385,7 @@ if __name__ == '__main__':
         print(f'Gradient Boosting Category Model - Class: {predicted_class_gb}')
         print('Gradient Boosting Category Model - Probabilities:')
         for i, prob in enumerate(probabilities_gb):
-            label = gb_inverted_category_labels.get(str(i), 'Unknown')
+            label = gb_inverted_cawtegory_labels.get(str(i), 'Unknown')
             print(f'  {label}: {prob}')
 
         # Extract features using GPT-2 and DistilBERT for intent
