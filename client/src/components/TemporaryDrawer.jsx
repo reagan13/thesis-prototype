@@ -181,6 +181,73 @@ export default function Sidebar() {
 					</ul>
 					{/* Divider */}
 					<hr className="border-gray-300 mx-4" />
+					<ul className="space-y-2 px-4 py-2">
+						{/* CHATTIBOT Title and Menu Button Grouped Together */}
+						<li className="flex items-center gap-2 p-2 rounded-md  transition-all duration-300 ">
+							<AnimatePresence>
+								{!isSidebarCollapsed && (
+									<motion.h1
+										key="chattibot-title"
+										initial={{ opacity: 0 }}
+										animate={{ opacity: 1 }}
+										exit={{ opacity: 0 }}
+										transition={{ duration: 0.2 }}
+										className="text-2xl font-bold tracking-widest"
+									>
+										Results
+									</motion.h1>
+								)}
+							</AnimatePresence>
+						</li>
+
+						{/* Home Link */}
+						<li>
+							<Link
+								to="/home"
+								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
+							>
+								<Home size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="home-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Home
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</Link>
+						</li>
+
+						{/* Results Link */}
+						<li>
+							<Link
+								to="/result"
+								className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 transition-all duration-300"
+							>
+								<BarChart size={20} />
+								<AnimatePresence>
+									{!isSidebarCollapsed && (
+										<motion.span
+											key="results-text"
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.2 }}
+										>
+											Results
+										</motion.span>
+									)}
+								</AnimatePresence>
+							</Link>
+						</li>
+					</ul>
+					{/* Divider */}
+					<hr className="border-gray-300 mx-4" />
 
 					{/* Delete Storage Button */}
 					<ul className="space-y-2 px-4 py-4">
