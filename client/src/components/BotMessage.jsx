@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useData } from "../context/DataContext";
 
 const BotMessage = ({
 	text,
@@ -10,6 +11,14 @@ const BotMessage = ({
 	isSelected,
 	onSelect,
 }) => {
+	const navigate = useNavigate();
+	const { setSelectedBotResponse } = useData();
+
+	const handleViewMore = () => {
+		setSelectedBotResponse({ text, category, intent, ner, id });
+		navigate("/chat");
+	};
+
 	return (
 		<div className="p-3 rounded-3xl inline-block space-y-4 text-left max-w-[500px] border border-black ">
 			<p>{text}</p>
@@ -28,14 +37,12 @@ const BotMessage = ({
 					</button>
 				)}
 				{isSelected && (
-					<Link
-						to={{
-							pathname: `/result/`,
-						}}
+					<button
+						onClick={handleViewMore}
 						className="text-gray-900 rounded-lg text-center hover:text-gray-600 transition duration-150 font-bold"
 					>
-						View More &gt;
-					</Link>
+						view more &gt;
+					</button>
 				)}
 			</div>
 		</div>
