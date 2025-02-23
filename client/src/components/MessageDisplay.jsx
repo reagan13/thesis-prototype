@@ -3,15 +3,15 @@ import UserMessage from "./UserMessage";
 import BotMessage from "./BotMessage";
 import PropTypes from "prop-types";
 import { useData } from "../context/DataContext"; // Import useData
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MessageDisplay = () => {
-	const { data, setData } = useData(); // Get data and setData from context
+	const { data, setData, setSelectedBotResponse } = useData(); // Get setSelectedBotResponse from context
 	const messages = useMemo(() => data.messages || [], [data.messages]); // Access messages from context
 	const messageEndRef = useRef(null); // Create a ref for the message container
 
 	// Handle selecting an option in bot responses
-	const handleSelectOption = (messageId, selectedResponseId) => {
+	const handleSelectOption = (messageId, selectedResponseId, botResponse) => {
 		const updatedMessages = messages.map((message) => {
 			if (message.id === messageId) {
 				const updatedBotResponses = message.botResponses.map((response) => ({
@@ -23,6 +23,9 @@ const MessageDisplay = () => {
 			return message;
 		});
 		setData({ messages: updatedMessages });
+
+		// Set the selected bot response in context
+		setSelectedBotResponse(botResponse);
 	};
 
 	// Scroll to the bottom of the message container whenever messages change
@@ -81,7 +84,11 @@ const MessageDisplay = () => {
 										id={botResponse.id}
 										isSelected={botResponse.isSelected}
 										onSelect={() =>
-											handleSelectOption(message.id, botResponse.id)
+											handleSelectOption(
+												message.id,
+												botResponse.id,
+												botResponse
+											)
 										}
 									/>
 								</Link>

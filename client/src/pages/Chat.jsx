@@ -2,11 +2,13 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import BarChart from "./component/BarChart"; // Import the reusable Box component
 import Modal from "./component/Modal"; // Import the Modal component
+import { useData } from "../context/DataContext"; // Import useData
 
 const Chat = () => {
 	// State to manage modal visibility and selected box
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedBox, setSelectedBox] = useState(null);
+	const { selectedBotResponse } = useData(); // Get selectedBotResponse from context
 
 	// Handlers for each box click
 	const handleBoxClick = (boxType) => {
@@ -53,6 +55,7 @@ const Chat = () => {
 			{isModalOpen && (
 				<Modal
 					selectedBox={selectedBox}
+					selectedBotResponse={selectedBotResponse}
 					onClose={() => setIsModalOpen(false)} // Close modal handler
 				/>
 			)}

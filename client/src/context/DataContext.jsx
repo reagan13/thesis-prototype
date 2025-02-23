@@ -7,9 +7,10 @@ export const DataProvider = ({ children }) => {
     const [data, setData] = useLocalStorage("chatData", { messages: [] }); // Use local storage for chat data
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false); // Sidebar state
     const [graphType, setGraphType] = useState(""); // Add graphType state
+    const [selectedBotResponse, setSelectedBotResponse] = useState(null);
 
     return (
-        <DataContext.Provider value={{ data, setData, isSidebarCollapsed, setIsSidebarCollapsed, graphType, setGraphType }}>
+        <DataContext.Provider value={{ data, setData, isSidebarCollapsed, setIsSidebarCollapsed, graphType, setGraphType,  selectedBotResponse, setSelectedBotResponse }}>
             {children}
         </DataContext.Provider>
     );

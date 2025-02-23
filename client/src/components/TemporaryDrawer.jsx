@@ -112,10 +112,11 @@ export default function Sidebar() {
 						</li>
 					</ul>
 
-					{/* Divider */}
+					{/* 
+					Divider
 					<hr className="border-gray-300 mx-4" />
 					<ul className="space-y-2 px-4 py-2">
-						{/* CHATTIBOT Title and Menu Button Grouped Together */}
+						{/* CHATTIBOT Title and Menu Button Grouped Together 
 						<li className="flex items-center gap-2 p-2 rounded-md  transition-all duration-300 ">
 							<AnimatePresence>
 								{!isSidebarCollapsed && (
@@ -133,7 +134,7 @@ export default function Sidebar() {
 							</AnimatePresence>
 						</li>
 
-						{/* Home Link */}
+						{/* Home Link 
 						<li>
 							<Link
 								to="/datapreprocess"
@@ -156,7 +157,7 @@ export default function Sidebar() {
 							</Link>
 						</li>
 
-						{/* Results Link */}
+						{/* Results Link 
 						<li>
 							<Link
 								to="/result"
@@ -179,10 +180,12 @@ export default function Sidebar() {
 							</Link>
 						</li>
 					</ul>
-					{/* Divider */}
-					<hr className="border-gray-300 mx-4" />
+					{/* Divider 
+					<hr className="border-gray-300 mx-4" /> 
+					
+					
 
-					{/* Delete Storage Button */}
+					{/* Delete Storage Button 
 					<ul className="space-y-2 px-4 py-4">
 						<li>
 							<button
@@ -206,6 +209,7 @@ export default function Sidebar() {
 							</button>
 						</li>
 					</ul>
+					*/}
 				</motion.div>
 			</motion.div>
 		</>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 import MessageDisplay from "./MessageDisplay";
 import InputSection from "./InputSection";
@@ -8,19 +7,14 @@ import { useData } from "../context/DataContext";
 const ChatInterface = () => {
 	const [input, setInput] = useState("set input sample");
 	const [loading, setLoading] = useState(false);
-	const { data, setData, isSidebarCollapsed } = useData(); // Get sidebar state
+	const { data, setData, setSelectedBotResponse } = useData(); // Get setSelectedBotResponse from context
 	const messages = data.messages || [];
 
 	const handleSend = async () => {
 		if (!input.trim()) return;
-		const inputData = { text: input };
 		setLoading(true);
 
 		try {
-			// const [categoryResponse] = await Promise.all([
-			// 	axios.post("http://localhost:5000/baseline_category", inputData),
-			// ]);
-
 			// Generate two distinct responses
 			const botResponse1 = {
 				text: `Option 1: The predicted category is `,
