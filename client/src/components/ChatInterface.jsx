@@ -5,12 +5,13 @@ import InputSection from "./InputSection";
 import { useData } from "../context/DataContext";
 
 const ChatInterface = () => {
-	const [input, setInput] = useState("set input sample");
+	const [input, setInput] = useState("");
 	const [loading, setLoading] = useState(false);
 	const { data, setData, setSelectedBotResponse } = useData(); // Get setSelectedBotResponse from context
 	const messages = data.messages || [];
 
 	const handleSend = async () => {
+		console.log(input);
 		if (!input.trim()) return;
 		setLoading(true);
 
