@@ -178,7 +178,6 @@ distilbert_tokenizer = DistilBertTokenizerFast.from_pretrained(DISTILBERT_TOKENI
 # Move the model to the appropriate device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 hybrid_model.to(device)
-
 def preprocess_input(text, gpt2_tokenizer, distilbert_tokenizer, max_length=128):
     """
     Preprocess input text for inference.
@@ -196,6 +195,7 @@ def preprocess_input(text, gpt2_tokenizer, distilbert_tokenizer, max_length=128)
         truncation=True,
         return_tensors="pt"
     )
+
     # Tokenize with DistilBERT
     distilbert_inputs = distilbert_tokenizer(
         text,
@@ -204,6 +204,7 @@ def preprocess_input(text, gpt2_tokenizer, distilbert_tokenizer, max_length=128)
         truncation=True,
         return_tensors="pt"
     )
+
     return {
         "gpt2_input_ids": gpt2_inputs["input_ids"],
         "gpt2_attention_mask": gpt2_inputs["attention_mask"],

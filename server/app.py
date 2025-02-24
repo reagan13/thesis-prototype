@@ -3,8 +3,11 @@ from flask import Flask, request, jsonify
 from models.hybrid_inference import hybrid_infer
 from models.generation_inference import generate_text_with_probabilities
 from models.baseline_inference import infer
-
+from flask_cors import CORS
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route('/')
 def home():
