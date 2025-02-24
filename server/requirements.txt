@@ -1,0 +1,6 @@
+flask
+torch
+transformers
+numpy
+safetensors
+rouge-score
