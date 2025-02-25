@@ -4,6 +4,7 @@ from models.hybrid_model import hybrid_infer
 from models.generation_inference import generate_text_with_probabilities
 from models.baseline_inference import infer
 from models.baseline_model import baseline_infer
+from datetime import datetime
 
 from flask_cors import CORS
 app = Flask(__name__)
@@ -45,6 +46,9 @@ def baesline_predict():
 @app.route('/hybrid', methods=['POST'])
 def hybrid():
     try:
+        # Capture the start time
+        start_time = datetime.now()
+        
         # Step 1: Get JSON data from the request
         data = request.get_json()
         text = data.get('text')
@@ -82,6 +86,9 @@ def hybrid():
             early_stopping=early_stopping
         )
         
+        # Capture the end time
+        end_time = datetime.now()
+        
         # Step 5: Combine results and return as JSON
         result = {
             "old_prompt": old_prompt,  # Original user input
@@ -89,7 +96,9 @@ def hybrid():
             "hybrid_predictions": hybrid_result,
             "generated_text": generation_result["generated_text"],
             "token_probabilities": generation_result["token_probabilities"],
-            "weighted_sum": generation_result["weighted_sum"]
+            "weighted_sum": generation_result["weighted_sum"],
+            "start_time": start_time.isoformat(),  # Add start time
+            "end_time": end_time.isoformat()  # Add end time
         }
         return jsonify(result)
     except Exception as e:
@@ -99,6 +108,9 @@ def hybrid():
 @app.route('/baseline', methods=['POST'])
 def baseline():
     try:
+        # Capture the start time
+        start_time = datetime.now()
+        
         # Step 1: Get JSON data from the request
         data = request.get_json()
         text = data.get('text')
@@ -136,6 +148,8 @@ def baseline():
             early_stopping=early_stopping
         )
         
+        # Capture the end time
+        end_time = datetime.now()
         # Step 5: Combine results and return as JSON
         result = {
             "old_prompt": old_prompt,  # Original user input
@@ -143,7 +157,9 @@ def baseline():
             "baseline_predictions": baseline_result,
             "generated_text": generation_result["generated_text"],
             "token_probabilities": generation_result["token_probabilities"],
-            "weighted_sum": generation_result["weighted_sum"]
+            "weighted_sum": generation_result["weighted_sum"],
+            "start_time": start_time.isoformat(),  # Add start time
+            "end_time": end_time.isoformat()  # Add end time
         }
         return jsonify(result)
     except Exception as e:
