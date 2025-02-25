@@ -11,7 +11,7 @@ const App = () => {
 			<HeaderProvider>
 				<div className="flex h-screen">
 					<Header /> {/* Header now uses context */}
-					<div className="h-full w-full border border-black pt-5 pb-3 ">
+					<div className="h-full w-full pt-5 pb-3 ">
 						<Outlet />
 					</div>
 				</div>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-// Custom hook to manage local storage
 const useLocalStorage = (key, initialValue) => {
 	const [storedValue, setStoredValue] = useState(() => {
 		try {
