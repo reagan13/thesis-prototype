@@ -35,16 +35,19 @@ const ChatAnalysis = () => {
 
     const intentChartData = {
         labels: [
-            message.botResponse.predictions?.baseline?.baseline_predictions?.category?.label || "Unknown",
-            message.botResponse.predictions?.hybrid?.hybrid_predictions?.category?.label || "Unknown",
+            
+            message.botResponse.predictions?.baseline?.baseline_predictions?.intent?.label || "Unknown",
+            
+            message.botResponse.predictions?.hybrid?.hybrid_predictions?.intent?.label || "Unknown",
             
         ],
         datasets: [
             {
                
                 data: [
-                    (message.botResponse.predictions?.baseline?.baseline_predictions?.category?.confidence || 0) * 100,
-                    (message.botResponse.predictions?.hybrid?.hybrid_predictions?.category?.confidence || 0) * 100,
+                    
+                    (message.botResponse.predictions?.baseline?.baseline_predictions?.intent?.confidence || 0) * 100,
+                    (message.botResponse.predictions?.hybrid?.hybrid_predictions?.intent?.confidence || 0) * 100,
                     
                 ],
                 backgroundColor: ['blue', 'orange'],
@@ -54,17 +57,16 @@ const ChatAnalysis = () => {
     
     const categoryChartData = {
         labels: [ 
-            message.botResponse.predictions?.baseline?.baseline_predictions?.intent?.label || "Unknown",
-            
-            message.botResponse.predictions?.hybrid?.hybrid_predictions?.intent?.label || "Unknown",
+            message.botResponse.predictions?.baseline?.baseline_predictions?.category?.label || "Unknown",
+            message.botResponse.predictions?.hybrid?.hybrid_predictions?.category?.label || "Unknown",
         ],
         datasets: [
             {
                 
                 data: [
-                    (message.botResponse.predictions?.baseline?.baseline_predictions?.intent?.confidence || 0) * 100,
-                    (message.botResponse.predictions?.hybrid?.hybrid_predictions?.intent?.confidence || 0) * 100,
                     
+                    (message.botResponse.predictions?.baseline?.baseline_predictions?.category?.confidence || 0) * 100,
+                    (message.botResponse.predictions?.hybrid?.hybrid_predictions?.category?.confidence || 0) * 100,
                 ],
                 backgroundColor: ['blue', 'orange'],
             },
@@ -116,6 +118,54 @@ const ChatAnalysis = () => {
                 <div className="p-6 bg-white rounded-lg shadow-md">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">Baseline Response</h2>
                     <p className="text-gray-700 mb-4"><strong>Generated Text:</strong> {message.botResponse.predictions?.baseline?.generated_text || "N/A"}</p>
+                    <p>
+							<strong>Category:</strong>{" "}
+							{message.botResponse.predictions?.baseline?.baseline_predictions
+								?.category?.label ||
+								message.botResponse.predictions?.baseline?.baseline_predictions
+									?.category?.prediction ||
+								"Unknown"}{" "}
+							(Confidence:{" "}
+							{(
+								message.botResponse.predictions?.baseline?.baseline_predictions
+									?.category?.confidence * 100
+							).toFixed(2)}
+							%)
+						</p>
+						<p>
+							<strong>Intent:</strong>{" "}
+							{message.botResponse.predictions?.baseline?.baseline_predictions
+								?.intent?.label ||
+								message.botResponse.predictions?.baseline?.baseline_predictions
+									?.intent?.prediction ||
+								"Unknown"}{" "}
+							(Confidence:{" "}
+							{(
+								message.botResponse.predictions?.baseline?.baseline_predictions
+									?.intent?.confidence * 100
+							).toFixed(2)}
+							%)
+						</p>
+						<p>
+							<strong>NER:</strong>{" "}
+							{Array.isArray(
+								message.botResponse.predictions?.baseline?.baseline_predictions
+									?.ner
+							) &&
+							message.botResponse.predictions?.baseline?.baseline_predictions
+								?.ner.length > 0
+								? message.botResponse.predictions?.baseline?.baseline_predictions?.ner.map(
+										(entity, index) => (
+											<span key={index} className="mr-2">
+												{"Text: "}
+												{entity.text},{" Type: "}
+												{entity.type} (Confidence:{" "}
+												{(entity.confidence * 100).toFixed(2)}%)
+											</span>
+										)
+								  )
+								: "None"}
+						</p>
                     <p>
                         <strong>Weighted Sum:</strong>{" "}
                         {message.botResponse.predictions?.baseline?.weighted_sum.toFixed(4)}
@@ -192,13 +242,14 @@ const ChatAnalysis = () => {
                 </div>
             </div>
             <div className="p-6 bg-white rounded-lg shadow-md mt-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Intent Confidence Score</h2>
-                <Bar data={intentChartData} options={getChartOptions("intent")} />
-            </div>
-            <div className="p-6 bg-white rounded-lg shadow-md mt-6">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Category Confidence Score</h2>
                 <Bar data={categoryChartData} options={getChartOptions("category")} />
             </div>
+            <div className="p-6 bg-white rounded-lg shadow-md mt-6">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Intent Confidence Score</h2>
+                <Bar data={intentChartData} options={getChartOptions("intent")} />
+            </div>
+            
         </div>
     );
 };
