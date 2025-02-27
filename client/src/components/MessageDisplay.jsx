@@ -43,13 +43,14 @@ const MessageDisplay = () => {
 					<div key={`message-${index}`} className="space-y-4">
 						{/* User Message */}
 						<div className="flex justify-end">
-							<UserMessage text={message.text} />
+							<UserMessage text={message.text} timestamp={message.timestamp} />
 						</div>
 						{/* Bot Response */}
 						<div className="flex justify-start">
 							<BotMessage
 								key={`bot-response-${index}`}
 								text={message.botResponse.text}
+								timestamp={message.timestamp}
 								category={message.botResponse.predictions?.category} // Nested under predictions
 								intent={message.botResponse.predictions?.intent} // Nested under predictions
 								ner={message.botResponse.predictions?.ner || []} // Default to empty array
