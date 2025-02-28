@@ -58,7 +58,7 @@ const ModelDropdown = () => {
 			{isOpen && (
 				<div
 					style={{ width: `${buttonRef.current?.offsetWidth}px` }}
-					className="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+					className="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50"
 					role="menu"
 					aria-orientation="vertical"
 					aria-labelledby="options-menu"

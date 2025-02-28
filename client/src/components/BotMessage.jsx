@@ -83,14 +83,14 @@ const BotMessage = ({
 						</p>
 						<button
 							onClick={() => handleViewChatAnalysis(id)}
-							className="font-semibold p-2 rounded-full bg-black text-white hover:border-black hover:border hover:bg-white hover:text-black "
+							className="font-semibold py-2 px-4 rounded-full bg-black text-white hover:border-black hover:border hover:bg-white hover:text-black "
 						>
 							Chat Analysis {">"}
 						</button>
 					</div>
 				</div>
 				{/* Timestamp */}
-				<p className="text-xs text-gray-500 mt-1">{timestamp}</p>
+				<p className="text-sm text-gray-500 mt-1">{timestamp}</p>
 			</div>
 		</div>
 	);
