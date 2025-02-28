@@ -190,12 +190,14 @@ export default function Sidebar() {
 															)}
 														</AnimatePresence>
 													</button>
-													<button
-														onClick={() => handleDeleteChat(chat.id)}
-														className="text-red-600 hover:text-red-800 transition-colors"
-													>
-														<Trash2 size={16} />
-													</button>
+													{!isSidebarCollapsed && (
+														<button
+															onClick={() => handleDeleteChat(chat.id)}
+															className="text-red-600 hover:text-red-800 transition-colors"
+														>
+															<Trash2 size={16} />
+														</button>
+													)}
 												</div>
 											</li>
 										);
