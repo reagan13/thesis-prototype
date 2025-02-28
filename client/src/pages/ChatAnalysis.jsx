@@ -278,11 +278,12 @@ const ChatAnalysis = () => {
                 <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Intent Confidence Score</h2>
                 <Bar data={intentChartData} options={getChartOptions("intent")} />
             </div>
-            <div className="p-6 bg-white rounded-lg shadow-md mt-6">
-                <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center"> NER Confidence Score</h2>
-                <Bar data={nerChartData} options={getChartOptions("ner")} />
-            </div>
-            
+            {nerChartData.labels.length > 0 && (
+                <div className="p-6 bg-white rounded-lg shadow-md mt-6">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">NER Confidence Score</h2>
+                    <Bar data={nerChartData} options={getChartOptions("ner")} />
+                </div>
+            )}
         </div>
     );
 };
