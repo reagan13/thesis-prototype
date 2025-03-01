@@ -97,8 +97,8 @@ def hybrid():
             "generated_text": generation_result["generated_text"],
             "token_probabilities": generation_result["token_probabilities"],
             "weighted_sum": generation_result["weighted_sum"],
-            "start_time": start_time.isoformat(),  # Add start time
-            "end_time": end_time.isoformat()  # Add end time
+            "start_time": start_time.isoformat(timespec='milliseconds'),  # Add start time with milliseconds precision
+            "end_time": end_time.isoformat(timespec='milliseconds')  # Add end time with milliseconds precision
         }
         return jsonify(result)
     except Exception as e:
@@ -158,8 +158,8 @@ def baseline():
             "generated_text": generation_result["generated_text"],
             "token_probabilities": generation_result["token_probabilities"],
             "weighted_sum": generation_result["weighted_sum"],
-            "start_time": start_time.isoformat(),  # Add start time
-            "end_time": end_time.isoformat()  # Add end time
+            "start_time": start_time.isoformat(timespec='milliseconds'),  # Add start time with milliseconds precision
+            "end_time": end_time.isoformat(timespec='milliseconds')  # Add end time with milliseconds precision
         }
         return jsonify(result)
     except Exception as e:
