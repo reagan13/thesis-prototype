@@ -1,6 +1,7 @@
 baseline/
 hybrid/
 text-generation/
+downloaded/
 
 venv/
 __pycache__/
