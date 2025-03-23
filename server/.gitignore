@@ -1,3 +1,8 @@
 baseline/
 hybrid/
 text-generation/
+
+venv/
+__pycache__/
+*.pyc
+*.pyo
